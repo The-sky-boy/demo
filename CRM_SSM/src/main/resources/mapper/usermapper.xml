@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace用来定义具体是哪一个mapper文件的东西，不能与其他的mapper的namespace重复 -->
+<mapper namespace="com.zhiyou.dao.UserDao">
+	
+	<select id="select" resultType="user">
+		select * from user
+		<trim prefix="where" prefixOverrides="and">
+			<if test="user_id!=null">
+				user_id=#{user_id}
+			</if>
+			<if test="department_id!=null">
+				and department_id=#{department_id}
+			</if>
+			<if test="role_id!=null">
+				and role_id=#{role_id}
+			</if>
+			<if test="username!=null">
+				and username=#{username}
+			</if>
+			<if test="is_male!=null">
+				and is_male=#{is_male}			
+			</if>
+			<if test="mobile!=null">
+				and mobile=#{mobile}			
+			</if>
+			<if test="age!=null">
+				and age=#{age}			
+			</if>
+			<if test="address!=null">
+				and address=#{address}			
+			</if>
+			<if test="is_admin!=null">
+				and is_admin=#{is_admin}			
+			</if>
+			<if test="is_system!=null">
+				and is_system=#{is_system}			
+			</if>
+			<if test="password!=null">
+				and password=#{password}			
+			</if>
+			<if test="tel!=null">
+				and tel=#{tel}			
+			</if>
+			<if test="id_num!=null">
+				and id_num=#{id_num}			
+			</if>
+			<if test="email!=null">
+				and email=#{email}			
+			</if>
+			<if test="hobby!=null">
+				and hobby=#{hobby}			
+			</if>
+			<if test="education!=null">
+				and education=#{education}			
+			</if>
+			<if test="card_num!=null">
+				and card_num=#{card_num}			
+			</if>
+			<if test="nation!=null">
+				and nation=#{nation}			
+			</if>
+			<if test="marry!=null">
+				and marry=#{marry}			
+			</if>
+			<if test="status!=null">
+				and status=#{status}			
+			</if>
+			<if test="remark!=null">
+				and remark=#{remark}			
+			</if>
+			<if test="create_time!=null">
+				and create_time=#{create_time}			
+			</if>
+			<if test="creater!=null">
+				and creater=#{creater}			
+			</if>
+			<if test="update_time!=null">
+				and update_time=#{update_time}			
+			</if>
+			<if test="updater!=null">
+				and updater=#{updater}			
+			</if>
+		</trim>
+	</select>
+	<select id="selectLike" resultType="user">
+		select * from user where username like concat('%',#{keyword},'%') 
+	</select>
+	<insert id="add">
+		insert into user values(null,#{department_id},#{role_id},#{username},#{is_male},#{mobile},
+		#{age},#{address},#{is_admin},#{is_system},#{password},#{tel},#{id_num},#{email},#{hobby},
+		#{education},#{card_num},#{nation},#{marry},#{status},#{remark},CURRENT_TIMESTAMP(),#{creater},#{update_time},#{updater})
+	</insert>
+	<delete id="delete">
+		delete from user where user_id=#{id}
+	</delete>
+	<update id="update">
+		update user set department_id=#{department_id},role_id=#{role_id},username=#{username},is_male=#{is_male},
+		mobile=#{mobile},age=#{age},address=#{address},is_admin=#{is_admin},is_system=#{is_system},password=#{password},
+		tel=#{tel},id_num=#{id_num},email=#{email},hobby=#{hobby},education=#{education},card_num=#{card_num},nation=#{nation},
+		marry=#{marry},status=#{status},remark=#{remark},update_time=CURRENT_TIMESTAMP(),updater=#{updater} where user_id=#{user_id}
+	</update>
+</mapper>

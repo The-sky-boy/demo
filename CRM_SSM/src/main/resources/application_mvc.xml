@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	<!-- 开启SpringMVC的注解驱动 -->
+	<mvc:annotation-driven>
+		<!-- 设置返回数据格式以及编码，为了防止返回中文数据出现乱码的情况，好像我用到的只有application/json;charset=UTF-8 -->
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json;charset=UTF-8</value>
+						<value>text/plain;charset=UTF-8</value>
+						<value>application/xml;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<!-- SpringMVC的扫描路径（就是扫我们的Controller） -->
+	<context:component-scan base-package="com.zhiyou.controller"></context:component-scan>
+	<!-- 开启静态资源支持 -->
+	<mvc:default-servlet-handler></mvc:default-servlet-handler>
+	<!-- 视图解析器 ，本次不需要，因为返回的json字符串-->
+ 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 为返回的视图添加 .jsp后缀 -->
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<!-- 配置拦截器 -->
+<!-- 	<mvc:interceptors>
+		<mvc:interceptor>
+			拦截所有请求
+			<mvc:mapping path="/**/" />
+			放行我们一开始就需要访问的：登录的请求以及登录页面的请求，js和css
+			<mvc:exclude-mapping path="/login" />
+			<mvc:exclude-mapping path="/signUp.html" />
+			<mvc:exclude-mapping path="/js/*.js" />
+			<mvc:exclude-mapping path="/css/*.css" />
+			指定我们所使用的拦截器
+			<bean class="com.zhiyou.interceptor.UserInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors> -->
+</beans>

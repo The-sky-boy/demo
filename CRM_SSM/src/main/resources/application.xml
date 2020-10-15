@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+	<!-- Spring的配置文件 -->
+	<!-- 告诉Spring 我的哪些包需要扫描 -->
+	<context:component-scan base-package="com.zhiyou"/>
+	<!-- 1.读取连接池的配置文件 -->
+	<util:properties id="db" location="classpath:db.properties"/>
+	<!-- 2.配置数据库连接池 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<!-- 通过setter注入将数据库连接信息注入到连接池类的实例对象中 -->
+		<property name="driverClassName" value="#{db.driverClassName}"/>
+		<property name="url" value="#{db.url}"/>
+		<property name="username" value="#{db.username}"/>
+		<property name="password" value="#{db.password}"/>
+	</bean>
+	<!-- 3.加载sqlSessionFactory -->
+	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 告知MyBatis配置文件的位置 -->
+		<property name="configLocation" value="classpath:MyBatisConfig.xml"/>
+		<!-- 告知小mapper文件在哪里 -->
+		<property name="mapperLocations" value="classpath:mapper/*.xml"/>
+	</bean>
+	<!-- 4.配置mapper接口扫描，用于给接口创建代理类对象 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 告知接口的路径 -->
+		<property name="basePackage" value="com.zhiyou.dao"/>
+		<!-- 需要使用sqlSessoin才能给接口创建代理类对象 -->
+		<property name="sqlSessionFactory" ref="sessionFactory"/>
+	</bean>
+</beans>

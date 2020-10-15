@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace用来定义具体是哪一个mapper文件的东西，不能与其他的mapper的namespace重复 -->
+<mapper namespace="com.zhiyou.dao.DepartmentDao">
+	
+	<select id="select" resultType="dept">
+		select * from department
+ 		<trim prefix="where" prefixOverrides="and">
+			<if test="department_id!=null">
+				department_id=#{department_id}
+			</if>
+			<if test="department_name!=null">
+				and department_name=#{department_name}
+			</if>
+			<if test="department_desc!=null">
+				and department_desc=#{department_desc}
+			</if>
+			<if test="status!=null">
+				and status=#{status}			
+			</if>
+			<if test="remark!=null">
+				and remark=#{remark}			
+			</if>
+			<if test="create_time!=null">
+				and create_time=#{create_time}			
+			</if>
+			<if test="creater!=null">
+				and creater=#{creater}			
+			</if>
+			<if test="update_time!=null">
+				and update_time=#{update_time}			
+			</if>
+			<if test="updater!=null">
+				and updater=#{updater}			
+			</if>
+		</trim>
+	</select>
+	<select id="selectLike" resultType="dept">
+		select * from department where department_name like concat('%',#{keyword},'%') 
+	</select>
+	<insert id="add">
+
+	</insert>
+	<delete id="delete">
+		delete from department where department_id=#{id}
+	</delete>
+	<update id="update">
+		
+	</update>
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace用来定义具体是哪一个mapper文件的东西，不能与其他的mapper的namespace重复 -->
+<mapper namespace="com.zhiyou.dao.RoleDao">
+	
+	<select id="select" resultType="role">
+		select * from role
+		<trim prefix="where" prefixOverrides="and">
+			<if test="role_id!=null">
+				role_id=#{role_id}
+			</if>
+			<if test="role_name!=null">
+				and role_name=#{role_name}
+			</if>
+			<if test="role_permission!=null">
+				and role_permission=#{role_permission}			
+			</if>
+			<if test="status!=null">
+				and status=#{status}			
+			</if>
+			<if test="remark!=null">
+				and remark=#{remark}			
+			</if>
+			<if test="create_time!=null">
+				and create_time=#{create_time}			
+			</if>
+			<if test="creater!=null">
+				and creater=#{creater}			
+			</if>
+			<if test="update_time!=null">
+				and update_time=#{update_time}			
+			</if>
+			<if test="updater!=null">
+				and updater=#{updater}			
+			</if>
+		</trim>
+	</select>
+	<select id="selectLike" resultType="role">
+		select * from role where role_name like concat('%',#{keyword},'%') 
+	</select>
+	<insert id="add">
+	</insert>
+	<delete id="delete">
+		delete from role where role_id=#{id}
+	</delete>
+	<update id="update">
+	</update>
+</mapper>
